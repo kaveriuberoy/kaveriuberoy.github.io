@@ -1,8 +1,0 @@
----
-title: "Home"
-output: 
-  html_document
----
-
-Hi! I'm Kaveri Uberoy. I’m currently a student at [Columbia Mailman School of Public Health](https://www.publichealth.columbia.edu/) working to get my Master's in Biostatistics ([Public Health Data Science](https://www.publichealth.columbia.edu/academics/degrees/degree-requirements/ms/public-health-data-science)). You’ll find my background and interests on the [About](about.html) page, and my academic and professional experience on the [Resume](resume.html) page  
-
