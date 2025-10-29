@@ -1,0 +1,11 @@
+---
+title: "About Me"
+output: html_document
+---
+
+Hi, I'm Kaveri. I grew up in New Delhi, India, and moved to the US for college and have lived here since. I previously lived in Boston, MA, which I loved, because it was really walkable and quiet, but it was so so cold there, so I'm looking forward to a slightly gentler winter here in New York City while I get my master's degree. In my free time, I love to try new recipes (my latest obsession has been baking all kinds of bread), spend time with my cat, and be in nature.
+
+## Research / Professional Interests
+
+I love to code, and I want to work for a meaningful cause in healthcare or health policy. My ideal job would be something where I could apply my coding skills to raise awareness or make a difference about public health causes, particularly for people who need it most. I'd ideally like to work at a smaller company or in a research environment where I can get to know the people I work with so I can learn the most, both technically, and generally about the field.
+
