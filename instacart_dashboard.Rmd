@@ -11,6 +11,7 @@ library(flexdashboard)
 library(tidyverse)
 library(plotly)
 library(p8105.datasets)
+library(viridis)
 ```
 
 ```{r}
@@ -32,7 +33,7 @@ We’ll identify the most popular aisles and visualize their counts.
 top_aisles =
   instacart_df |>
     count(aisle, sort = TRUE) |>
-    slice_head(n = 50) |>
+    slice_head(n = 25) |>
     mutate(aisle = fct_reorder(aisle, n))
 
 plot_ly(top_aisles,
@@ -42,13 +43,13 @@ plot_ly(top_aisles,
         color = ~aisle,
         colors = "viridis") |>
         layout(
-          title = "Top 50 Aisles by Number of Products Ordered",
+          title = "Top 25 Aisles by Number of Products Ordered",
           xaxis = list(title = ""),
           yaxis = list(title = "Number of Orders")
 )
 ```
 
-Column {data-width=350}
+Column {data-width=650}
 -----------------------------------------------------------------------
 
 ### Boxplot: Hour of Order by Department
@@ -84,6 +85,8 @@ product_orders <- instacart_df |>
   slice_max(order_by = total_orders, n = 15) |>
   ungroup()
 
+num_aisles <- n_distinct(product_orders[["aisle"]])
+
 plot_ly(
   data = product_orders,
   x = ~department,
@@ -91,6 +94,7 @@ plot_ly(
   type = "scatter",
   mode = "markers",
   color = ~aisle,
+  colors = viridis(num_aisles),
   text = ~paste("Product:", product_name,
                 "<br>Aisle:", aisle,
                 "<br>Department:", department,
