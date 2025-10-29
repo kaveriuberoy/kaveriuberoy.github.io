@@ -1,0 +1,108 @@
+---
+title: "Instacart Flexdashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(p8105.datasets)
+```
+
+```{r}
+data("instacart")
+instacart_df =
+instacart |>
+sample_n(5000) |>
+select(order_id, user_id, order_dow, order_hour_of_day, product_name, aisle, department, reordered)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Bar Chart: Top Aisles Ordered From
+
+We’ll identify the most popular aisles and visualize their counts.
+
+```{r}
+top_aisles =
+  instacart_df |>
+    count(aisle, sort = TRUE) |>
+    slice_head(n = 50) |>
+    mutate(aisle = fct_reorder(aisle, n))
+
+plot_ly(top_aisles,
+        x = ~aisle,
+        y = ~n,
+        type = "bar",
+        color = ~aisle,
+        colors = "viridis") |>
+        layout(
+          title = "Top 50 Aisles by Number of Products Ordered",
+          xaxis = list(title = ""),
+          yaxis = list(title = "Number of Orders")
+)
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Boxplot: Hour of Order by Department
+
+We’ll look at the distribution of order times across departments.
+
+```{r}
+
+plot_ly(instacart_df,
+        x = ~department,
+        y = ~order_hour_of_day,
+        color = ~department,
+        type = "box",
+        colors = "viridis") |>
+        layout(
+          title = "Distribution of Order Hour by Department",
+          xaxis = list(title = "Department"),
+          yaxis = list(title = "Hour of Day")
+)
+
+```
+
+### Scatterplot: Most popular products by department.
+
+Shows the top 15 most ordered products by department, colored by aisle. 
+
+```{r}
+
+product_orders <- instacart_df |>
+  group_by(product_name, aisle, department) |>
+  summarize(total_orders = n(), .groups = "drop") |>
+  group_by(department) |>
+  slice_max(order_by = total_orders, n = 15) |>
+  ungroup()
+
+plot_ly(
+  data = product_orders,
+  x = ~department,
+  y = ~total_orders,
+  type = "scatter",
+  mode = "markers",
+  color = ~aisle,
+  text = ~paste("Product:", product_name,
+                "<br>Aisle:", aisle,
+                "<br>Department:", department,
+                "<br>Total Orders:", total_orders),
+  marker = list(size = 8, opacity = 0.7)
+) |>
+  layout(
+    title = "Total Orders per Product by Department",
+    xaxis = list(title = "Department", tickangle = -45),
+    yaxis = list(title = "Total Orders"),
+    margin = list(b = 150)  
+  )
+
+```
+
